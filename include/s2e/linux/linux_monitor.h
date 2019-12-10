@@ -45,7 +45,7 @@ static inline void s2e_linux_process_load(pid_t pid, const char *path)
 }
 
 static inline void s2e_linux_module_load(const char *path, uint64_t pid, uint64_t entry_point,
-					 const struct S2E_LINUXMON_PHDR_DESC *phdr, size_t phdr_size)
+           uint64_t load_bias, const struct S2E_LINUXMON_PHDR_DESC *phdr, size_t phdr_size)
 {
 	struct S2E_LINUXMON_COMMAND cmd = {0};
 	cmd.version = S2E_LINUXMON_COMMAND_VERSION;
@@ -54,6 +54,7 @@ static inline void s2e_linux_module_load(const char *path, uint64_t pid, uint64_
 
 	cmd.ModuleLoad.module_path = path;
 	cmd.ModuleLoad.entry_point = entry_point;
+	cmd.ModuleLoad.load_bias = load_bias;
 	cmd.ModuleLoad.phdr = (uintptr_t)phdr;
 	cmd.ModuleLoad.phdr_size = phdr_size;
 

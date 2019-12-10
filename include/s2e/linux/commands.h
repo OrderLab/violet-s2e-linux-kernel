@@ -86,6 +86,7 @@ struct S2E_LINUXMON_PHDR_DESC {
 struct S2E_LINUXMON_COMMAND_MODULE_LOAD {
 	uint64_t module_path;
 	uint64_t entry_point;
+	uint64_t load_bias;
 	uint64_t phdr;
 	uint64_t phdr_size;
 } __attribute__((packed));
