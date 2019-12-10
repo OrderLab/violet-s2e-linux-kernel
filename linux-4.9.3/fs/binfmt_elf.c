@@ -715,7 +715,7 @@ static unsigned long load_elf_interp(
 			   load_addr);
 
 		s2e_linux_module_load(elf_interpreter, current->pid,
-				      interp_elf_ex->e_entry, elf_phdr,
+				      interp_elf_ex->e_entry, 0, elf_phdr,
 				      elf_phdr_size);
 	}
 #endif
@@ -1228,8 +1228,12 @@ static int load_elf_binary(struct linux_binprm *bprm)
 out:
 #ifdef CONFIG_S2E
 	if (s2e_linux_monitor_enabled && !retval) {
+		s2e_printf("binary=%s elf_entry=%#lx, load_bias=%#lx, "
+			   "static_elf_entry=%#lx\n",
+			   bprm->interp, loc->elf_ex.e_entry, load_bias,
+			   loc->elf_ex.e_entry - load_bias);
 		s2e_linux_module_load(bprm->interp, current->pid,
-				      loc->elf_ex.e_entry, elf_phdr,
+				      loc->elf_ex.e_entry, load_bias, elf_phdr,
 				      elf_phdr_size);
 	}
 
